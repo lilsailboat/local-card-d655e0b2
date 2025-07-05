@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,7 +6,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Store, Users, TrendingUp, DollarSign, Calendar, Settings, Megaphone } from 'lucide-react';
+import { Store, Users, TrendingUp, DollarSign, Calendar, Settings, Megaphone, Wifi, CreditCard } from 'lucide-react';
+import POSIntegration from '@/components/POSIntegration';
+import BillingManagement from '@/components/BillingManagement';
 
 const BusinessDashboard = () => {
   const [business] = useState({
@@ -90,9 +91,11 @@ const BusinessDashboard = () => {
         </div>
 
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="campaigns">Campaigns</TabsTrigger>
+            <TabsTrigger value="pos-integration">POS Integration</TabsTrigger>
+            <TabsTrigger value="billing">Billing</TabsTrigger>
             <TabsTrigger value="profile">Profile</TabsTrigger>
             <TabsTrigger value="settings">Settings</TabsTrigger>
           </TabsList>
@@ -181,6 +184,14 @@ const BusinessDashboard = () => {
                 </div>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="pos-integration" className="space-y-4">
+            <POSIntegration />
+          </TabsContent>
+
+          <TabsContent value="billing" className="space-y-4">
+            <BillingManagement />
           </TabsContent>
 
           <TabsContent value="profile" className="space-y-4">
