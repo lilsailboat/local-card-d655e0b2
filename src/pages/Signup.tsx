@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -6,8 +5,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { MapPin, User, Mail, Lock, Phone } from 'lucide-react';
+import { MapPin, User, Mail, Lock, Phone, Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { wardService } from '@/services/wardService';
+import { automationService } from '@/services/automationService';
+import { pointsEngine } from '@/services/pointsEngine';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -17,14 +19,29 @@ const Signup = () => {
     confirmPassword: '',
     zipCode: '',
     phone: '',
+    referralCode: '',
     ageBracket: '',
     interests: [] as string[],
     termsAccepted: false,
     privacyAccepted: false,
     marketingConsent: false
   });
+  const [wardInfo, setWardInfo] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const handleZipCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const zipCode = e.target.value;
+    setFormData({...formData, zipCode});
+
+    // Check ward when ZIP code is complete
+    if (zipCode.length === 5) {
+      const ward = wardService.getWardByZipCode(zipCode);
+      setWardInfo(ward);
+    } else {
+      setWardInfo(null);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,11 +55,36 @@ const Signup = () => {
     }
     
     setLoading(true);
-    // Simulate API call
-    setTimeout(() => {
+
+    try {
+      // Create user account
+      const userId = `user_${Date.now()}`;
+      
+      // Initialize user points
+      pointsEngine.initializeUser(userId);
+      
+      // Process referral if provided
+      if (formData.referralCode) {
+        const referrerId = formData.referralCode; // In real app, lookup referrer by code
+        await automationService.processReferral(referrerId, userId);
+      }
+
+      console.log('User created:', {
+        userId,
+        email: formData.email,
+        ward: wardInfo?.number,
+        referralCode: formData.referralCode
+      });
+
+      // Simulate API call
+      setTimeout(() => {
+        setLoading(false);
+        navigate('/link-card');
+      }, 1500);
+    } catch (error) {
+      console.error('Signup error:', error);
       setLoading(false);
-      navigate('/link-card');
-    }, 1500);
+    }
   };
 
   const interestOptions = [
@@ -85,10 +127,15 @@ const Signup = () => {
                     placeholder="12345"
                     className="pl-10"
                     value={formData.zipCode}
-                    onChange={(e) => setFormData({...formData, zipCode: e.target.value})}
+                    onChange={handleZipCodeChange}
                     required
                   />
                 </div>
+                {wardInfo && (
+                  <p className="text-sm text-emerald-600 mt-1">
+                    📍 Ward {wardInfo.number}: {wardInfo.name}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -108,18 +155,34 @@ const Signup = () => {
               </div>
             </div>
 
-            <div>
-              <Label htmlFor="phone">Phone Number (Optional)</Label>
-              <div className="relative">
-                <Phone className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                <Input
-                  id="phone"
-                  type="tel"
-                  placeholder="(555) 123-4567"
-                  className="pl-10"
-                  value={formData.phone}
-                  onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                />
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="phone">Phone (Optional)</Label>
+                <div className="relative">
+                  <Phone className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Input
+                    id="phone"
+                    type="tel"
+                    placeholder="(555) 123-4567"
+                    className="pl-10"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="referralCode">Referral Code (Optional)</Label>
+                <div className="relative">
+                  <Users className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Input
+                    id="referralCode"
+                    type="text"
+                    placeholder="FRIEND2024"
+                    className="pl-10"
+                    value={formData.referralCode}
+                    onChange={(e) => setFormData({...formData, referralCode: e.target.value})}
+                  />
+                </div>
               </div>
             </div>
 

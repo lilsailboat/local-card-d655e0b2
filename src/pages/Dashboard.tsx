@@ -1,30 +1,58 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CreditCard, MapPin, Gift, Users, TrendingUp, Star } from 'lucide-react';
+import { CreditCard, MapPin, Gift, Users, TrendingUp, Star, Award, Target } from 'lucide-react';
+import { wardService } from '@/services/wardService';
+import { pointsEngine } from '@/services/pointsEngine';
+import { cardLinkingService } from '@/services/cardLinkingService';
 
 const Dashboard = () => {
   const [user] = useState({
+    id: 'user_123',
     name: 'Sarah Johnson',
-    pointsBalance: 2847,
+    zipCode: '20009',
     cardLinked: true,
     referralCode: 'SARAH2024'
   });
 
+  const [userWard, setUserWard] = useState<any>(null);
+  const [userPoints, setUserPoints] = useState<any>(null);
+  const [wardChallenges, setWardChallenges] = useState<any[]>([]);
+  const [linkedCards, setLinkedCards] = useState<any[]>([]);
+
+  useEffect(() => {
+    // Get user's ward
+    const ward = wardService.getWardByZipCode(user.zipCode);
+    setUserWard(ward);
+
+    // Get user points
+    const points = pointsEngine.getUserPoints(user.id) || pointsEngine.initializeUser(user.id);
+    setUserPoints(points);
+
+    // Get ward challenges
+    if (ward) {
+      const challenges = wardService.getWardChallenges(ward.number);
+      setWardChallenges(challenges);
+    }
+
+    // Get linked cards
+    const cards = cardLinkingService.getUserCards(user.id);
+    setLinkedCards(cards);
+  }, [user.id, user.zipCode]);
+
   const [transactions] = useState([
-    { id: 1, business: 'Maya\'s Coffee House', amount: 24.50, points: 25, date: '2024-01-08', location: 'Downtown' },
-    { id: 2, business: 'Green Valley Grocery', amount: 67.89, points: 68, date: '2024-01-07', location: 'Midtown' },
-    { id: 3, business: 'Artisan Bakery', amount: 18.25, points: 18, date: '2024-01-06', location: 'Old Town' },
-    { id: 4, business: 'Local Fitness Studio', amount: 45.00, points: 90, date: '2024-01-05', location: 'Westside', multiplier: '2X Points' }
+    { id: 1, business: 'Maya\'s Coffee House', amount: 24.50, points: 49, date: '2024-01-08', location: 'Ward 1', wardNumber: 1, multiplier: '2X Points' },
+    { id: 2, business: 'Green Valley Grocery', amount: 67.89, points: 136, date: '2024-01-07', location: 'Ward 1', wardNumber: 1 },
+    { id: 3, business: 'Artisan Bakery', amount: 18.25, points: 37, date: '2024-01-06', location: 'Ward 1', wardNumber: 1 },
+    { id: 4, business: 'Local Fitness Studio', amount: 45.00, points: 90, date: '2024-01-05', location: 'Ward 1', wardNumber: 1 }
   ]);
 
   const [nearbyBusinesses] = useState([
-    { id: 1, name: 'Blue Moon Books', category: 'Books & Media', distance: '0.3 mi', points: '1-3% back', rating: 4.8 },
-    { id: 2, name: 'Harvest Kitchen', category: 'Restaurant', distance: '0.5 mi', points: '2% back', rating: 4.6 },
-    { id: 3, name: 'Corner Hardware', category: 'Home & Garden', distance: '0.7 mi', points: '1% back', rating: 4.9 }
+    { id: 1, name: 'Blue Moon Books', category: 'Books & Media', distance: '0.3 mi', points: '2% back', rating: 4.8, wardNumber: 1 },
+    { id: 2, name: 'Harvest Kitchen', category: 'Restaurant', distance: '0.5 mi', points: '3% back', rating: 4.6, wardNumber: 1 },
+    { id: 3, name: 'Corner Hardware', category: 'Home & Garden', distance: '0.7 mi', points: '1% back', rating: 4.9, wardNumber: 1 }
   ]);
 
   return (
@@ -34,7 +62,9 @@ const Dashboard = () => {
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Welcome back, {user.name}!</h1>
-            <p className="text-gray-600">Here's your Local Card activity</p>
+            {userWard && (
+              <p className="text-gray-600">Ward {userWard.number}: {userWard.name}</p>
+            )}
           </div>
           <Button variant="outline" className="bg-white">
             <Gift className="h-4 w-4 mr-2" />
@@ -48,13 +78,14 @@ const Dashboard = () => {
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-emerald-100 mb-2">Current Balance</p>
-                <p className="text-4xl font-bold">{user.pointsBalance.toLocaleString()} points</p>
-                <p className="text-emerald-100 mt-2">≈ ${(user.pointsBalance * 0.01).toFixed(2)} value</p>
+                <p className="text-4xl font-bold">{userPoints?.balance?.toLocaleString() || '0'} points</p>
+                <p className="text-emerald-100 mt-2">≈ ${((userPoints?.balance || 0) * 0.01).toFixed(2)} value</p>
+                <p className="text-emerald-100 text-sm">Lifetime: {userPoints?.lifetime?.toLocaleString() || '0'} points</p>
               </div>
               <div className="text-right">
                 <div className="flex items-center text-emerald-100 mb-2">
                   <CreditCard className="h-4 w-4 mr-2" />
-                  {user.cardLinked ? 'Card Linked' : 'Link Card'}
+                  {linkedCards.length > 0 ? `${linkedCards.length} Card${linkedCards.length > 1 ? 's' : ''} Linked` : 'Link Card'}
                 </div>
                 <Button variant="secondary" size="sm">
                   Manage Cards
@@ -63,6 +94,36 @@ const Dashboard = () => {
             </div>
           </CardContent>
         </Card>
+
+        {/* Ward Challenges */}
+        {wardChallenges.length > 0 && (
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Target className="h-5 w-5 mr-2" />
+                Ward {userWard?.number} Challenges
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {wardChallenges.map((challenge) => (
+                  <div key={challenge.id} className="flex justify-between items-center p-4 border rounded-lg bg-gradient-to-r from-yellow-50 to-orange-50">
+                    <div>
+                      <h3 className="font-semibold text-orange-800">{challenge.title}</h3>
+                      <p className="text-sm text-orange-600">{challenge.description}</p>
+                      <p className="text-xs text-orange-500 mt-1">Ends: {new Date(challenge.endDate).toLocaleDateString()}</p>
+                    </div>
+                    <div className="text-right">
+                      <Badge variant="outline" className="text-orange-600 border-orange-600">
+                        +{challenge.reward} points
+                      </Badge>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         <Tabs defaultValue="activity" className="space-y-6">
           <TabsList className="grid w-full grid-cols-4">
@@ -107,7 +168,7 @@ const Dashboard = () => {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <MapPin className="h-5 w-5 mr-2" />
-                  Nearby Local Businesses
+                  Ward {userWard?.number} Local Businesses
                 </CardTitle>
               </CardHeader>
               <CardContent>
