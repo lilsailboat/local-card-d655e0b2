@@ -64,12 +64,14 @@ class AnalyticsService {
     const averageTransaction = transactionCount > 0 ? totalSpent / transactionCount : 0;
     
     // Determine favorite ward
-    const wardCounts = userTransactions.reduce((acc, t) => {
-      acc[t.wardNumber] = (acc[t.wardNumber] || 0) + 1;
+    const wardCounts: Record<string, number> = userTransactions.reduce((acc, t) => {
+      const ward = String(t.wardNumber);
+      acc[ward] = (acc[ward] || 0) + 1;
       return acc;
     }, {});
-    const favoriteWard = Object.keys(wardCounts).reduce((a, b) => 
-      wardCounts[a] > wardCounts[b] ? a : b, 0
+    
+    const favoriteWardKey = Object.keys(wardCounts).reduce((a, b) => 
+      wardCounts[a] > wardCounts[b] ? a : b, '0'
     );
 
     // Determine cohort
@@ -86,7 +88,7 @@ class AnalyticsService {
       totalPoints: pointsHistory.reduce((sum, p) => sum + p.amount, 0),
       transactionCount,
       averageTransaction,
-      favoriteWard: parseInt(favoriteWard),
+      favoriteWard: parseInt(favoriteWardKey) || 0,
       favoriteCategory: 'Food and Drink', // Mock for now
       lastActivity: userTransactions[userTransactions.length - 1]?.date || new Date().toISOString(),
       cohort,
