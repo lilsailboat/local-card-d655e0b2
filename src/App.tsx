@@ -1,46 +1,45 @@
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import Signup from "./pages/Signup";
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import LinkCard from "./pages/LinkCard";
-import BusinessDashboard from "./pages/BusinessDashboard";
-import AdminDashboard from "./pages/AdminDashboard";
-import InvestorDashboard from "./pages/InvestorDashboard";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import TermsOfService from "./pages/TermsOfService";
-import NotFound from "./pages/NotFound";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Index from './pages/Index';
+import Dashboard from './pages/Dashboard';
+import BusinessDashboard from './pages/BusinessDashboard';
+import BusinessSignup from './pages/BusinessSignup';
+import AdminDashboard from './pages/AdminDashboard';
+import InvestorDashboard from './pages/InvestorDashboard';
+import LinkCard from './pages/LinkCard';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
+import NotFound from './pages/NotFound';
+import { Toaster } from '@/components/ui/sonner';
+import './App.css';
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Router>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/link-card" element={<LinkCard />} />
           <Route path="/business" element={<BusinessDashboard />} />
+          <Route path="/business/signup" element={<BusinessSignup />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/investor" element={<InvestorDashboard />} />
+          <Route path="/link-card" element={<LinkCard />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/terms" element={<TermsOfService />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+        <Toaster />
+      </Router>
+    </QueryClientProvider>
+  );
+}
 
 export default App;

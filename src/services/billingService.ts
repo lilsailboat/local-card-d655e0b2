@@ -38,31 +38,22 @@ export interface PaymentMethod {
 class BillingService {
   private plans: BillingPlan[] = [
     {
-      id: 'starter',
-      name: 'Starter',
-      price: 2999, // $29.99
+      id: 'business',
+      name: 'Business Plan',
+      price: 4000, // $40.00
       currency: 'usd',
       interval: 'month',
-      features: ['Basic analytics', 'Up to 1000 transactions/month', 'Email support'],
-      transactionFee: 0.029 // 2.9%
-    },
-    {
-      id: 'growth',
-      name: 'Growth',
-      price: 9999, // $99.99
-      currency: 'usd',
-      interval: 'month',
-      features: ['Advanced analytics', 'Unlimited transactions', 'Priority support', 'Custom campaigns'],
-      transactionFee: 0.025 // 2.5%
-    },
-    {
-      id: 'enterprise',
-      name: 'Enterprise',
-      price: 29999, // $299.99
-      currency: 'usd',
-      interval: 'month',
-      features: ['All features', 'Dedicated support', 'Custom integrations', 'White-label options'],
-      transactionFee: 0.02 // 2.0%
+      features: [
+        'POS system integration', 
+        'Ward-based customer targeting', 
+        'Campaign creation tools',
+        'Real-time analytics dashboard', 
+        'Customer loyalty programs', 
+        'Transaction processing',
+        'Community engagement tools',
+        'Automated loyalty rewards'
+      ],
+      transactionFee: 0.03 // 3%
     }
   ];
 
@@ -84,7 +75,7 @@ class BillingService {
     }
 
     // Mock Stripe subscription creation
-    console.log('Creating subscription:', { merchantId, planId, paymentMethodId });
+    console.log('Creating business subscription:', { merchantId, planId, paymentMethodId });
     
     return {
       subscriptionId: `sub_${Date.now()}`,
@@ -94,8 +85,8 @@ class BillingService {
     };
   }
 
-  // Process transaction fee billing
-  async processTransactionFee(merchantId: string, transactionAmount: number, planId: string) {
+  // Process transaction fee billing (3% of Local Card purchases)
+  async processTransactionFee(merchantId: string, transactionAmount: number, planId: string = 'business') {
     const plan = this.getPlan(planId);
     if (!plan) {
       throw new Error('Plan not found');
@@ -103,7 +94,7 @@ class BillingService {
 
     const feeAmount = transactionAmount * plan.transactionFee;
     
-    console.log('Processing transaction fee:', {
+    console.log('Processing Local Card transaction fee:', {
       merchantId,
       transactionAmount,
       feeAmount,
@@ -117,8 +108,43 @@ class BillingService {
     };
   }
 
-  // Generate invoice
-  async generateInvoice(merchantId: string, items: InvoiceItem[]): Promise<Invoice> {
+  // Calculate monthly business earnings projection
+  calculateBusinessEarnings(monthlyRevenue: number, localCardPercentage: number = 0.25): {
+    grossLocalCardRevenue: number;
+    transactionFees: number;
+    netEarnings: number;
+    monthlySubscription: number;
+  } {
+    const grossLocalCardRevenue = monthlyRevenue * localCardPercentage;
+    const transactionFees = grossLocalCardRevenue * 0.03; // 3% fee
+    const monthlySubscription = 40; // $40/month
+    const netEarnings = grossLocalCardRevenue - transactionFees - monthlySubscription;
+
+    return {
+      grossLocalCardRevenue,
+      transactionFees,
+      netEarnings,
+      monthlySubscription
+    };
+  }
+
+  // Generate invoice for business
+  async generateBusinessInvoice(merchantId: string, monthlyRevenue: number): Promise<Invoice> {
+    const earnings = this.calculateBusinessEarnings(monthlyRevenue);
+    
+    const items: InvoiceItem[] = [
+      {
+        description: 'Monthly Subscription - Business Plan',
+        amount: 4000, // $40.00 in cents
+        quantity: 1
+      },
+      {
+        description: 'Transaction Fees (3% of Local Card sales)',
+        amount: Math.round(earnings.transactionFees * 100), // Convert to cents
+        quantity: 1
+      }
+    ];
+
     const totalAmount = items.reduce((sum, item) => sum + (item.amount * item.quantity), 0);
     
     const invoice: Invoice = {
@@ -132,7 +158,7 @@ class BillingService {
       items
     };
 
-    console.log('Generated invoice:', invoice);
+    console.log('Generated business invoice:', invoice);
     return invoice;
   }
 
@@ -147,7 +173,7 @@ class BillingService {
       isDefault: true
     };
 
-    console.log('Added payment method for merchant:', merchantId, paymentMethod);
+    console.log('Added payment method for business:', merchantId, paymentMethod);
     return paymentMethod;
   }
 
