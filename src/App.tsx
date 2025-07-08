@@ -10,6 +10,7 @@ import InvestorDashboard from './pages/InvestorDashboard';
 import LinkCard from './pages/LinkCard';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import CustomerPortalPage from './pages/CustomerPortalPage';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import NotFound from './pages/NotFound';
@@ -29,6 +30,7 @@ function App() {
           <Route path="/business/signup" element={<BusinessSignup />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/investor" element={<InvestorDashboard />} />
+          <Route path="/customer" element={<CustomerPortalPage />} />
           <Route path="/link-card" element={<LinkCard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />

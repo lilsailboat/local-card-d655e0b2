@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -11,6 +10,8 @@ import { Store, Users, TrendingUp, DollarSign, Calendar, Settings, Megaphone, Wi
 import POSIntegration from '@/components/POSIntegration';
 import BillingManagement from '@/components/BillingManagement';
 import CampaignCreator, { Campaign } from '@/components/CampaignCreator';
+import AdvancedCRM from '@/components/AdvancedCRM';
+import CustomerPortal from '@/components/CustomerPortal';
 
 const BusinessDashboard = () => {
   const [business] = useState({
@@ -123,7 +124,7 @@ const BusinessDashboard = () => {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-small text-gray-600">Monthly Revenue</p>
+                  <p className="text-sm text-gray-600">Monthly Revenue</p>
                   <p className="text-2xl font-bold">${business.revenue.toLocaleString()}</p>
                 </div>
                 <DollarSign className="h-8 w-8 text-emerald-600" />
@@ -145,12 +146,13 @@ const BusinessDashboard = () => {
         </div>
 
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6">
+          <TabsList className="grid w-full grid-cols-7">
             <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="customers">Customers</TabsTrigger>
+            <TabsTrigger value="crm">Advanced CRM</TabsTrigger>
             <TabsTrigger value="campaigns">Campaigns</TabsTrigger>
             <TabsTrigger value="pos-integration">POS Integration</TabsTrigger>
             <TabsTrigger value="billing">Billing</TabsTrigger>
-            <TabsTrigger value="profile">Profile</TabsTrigger>
             <TabsTrigger value="settings">Settings</TabsTrigger>
           </TabsList>
 
@@ -207,6 +209,24 @@ const BusinessDashboard = () => {
                 </CardContent>
               </Card>
             </div>
+          </TabsContent>
+
+          <TabsContent value="customers" className="space-y-4">
+            <CustomerPortal 
+              userId="demo-user"
+              customerData={{
+                name: "Demo Customer",
+                email: "demo@example.com",
+                phone: "(555) 123-4567",
+                joinDate: "2023-01-15",
+                tier: "gold",
+                wardNumber: 1
+              }}
+            />
+          </TabsContent>
+
+          <TabsContent value="crm" className="space-y-4">
+            <AdvancedCRM />
           </TabsContent>
 
           <TabsContent value="campaigns" className="space-y-4">
@@ -270,41 +290,6 @@ const BusinessDashboard = () => {
 
           <TabsContent value="billing" className="space-y-4">
             <BillingManagement />
-          </TabsContent>
-
-          <TabsContent value="profile" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Business Profile</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label htmlFor="businessName">Business Name</Label>
-                  <Input id="businessName" defaultValue="Maya's Coffee House" className="mt-1" />
-                </div>
-                <div>
-                  <Label htmlFor="description">Description</Label>
-                  <Textarea 
-                    id="description" 
-                    defaultValue="Artisanal coffee and pastries in the heart of downtown"
-                    className="mt-1"
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="category">Category</Label>
-                    <Input id="category" defaultValue="Coffee & Cafe" className="mt-1" />
-                  </div>
-                  <div>
-                    <Label htmlFor="phone">Phone</Label>
-                    <Input id="phone" defaultValue="(555) 123-4567" className="mt-1" />
-                  </div>
-                </div>
-                <Button className="bg-blue-600 hover:bg-blue-700">
-                  Update Profile
-                </Button>
-              </CardContent>
-            </Card>
           </TabsContent>
 
           <TabsContent value="settings" className="space-y-4">
