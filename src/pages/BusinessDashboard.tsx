@@ -6,12 +6,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Store, Users, TrendingUp, DollarSign, Calendar, Settings, Megaphone, Wifi, CreditCard } from 'lucide-react';
+import { Store, Users, TrendingUp, DollarSign, Calendar, Settings, Megaphone, Wifi, CreditCard, Shield } from 'lucide-react';
 import POSIntegration from '@/components/POSIntegration';
 import BillingManagement from '@/components/BillingManagement';
 import CampaignCreator, { Campaign } from '@/components/CampaignCreator';
 import AdvancedCRM from '@/components/AdvancedCRM';
 import CustomerPortal from '@/components/CustomerPortal';
+import Phase3Dashboard from '@/components/Phase3Dashboard';
 
 const BusinessDashboard = () => {
   const [business] = useState({
@@ -146,11 +147,12 @@ const BusinessDashboard = () => {
         </div>
 
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-7">
+          <TabsList className="grid w-full grid-cols-8">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="customers">Customers</TabsTrigger>
             <TabsTrigger value="crm">Advanced CRM</TabsTrigger>
             <TabsTrigger value="campaigns">Campaigns</TabsTrigger>
+            <TabsTrigger value="phase3">Enterprise</TabsTrigger>
             <TabsTrigger value="pos-integration">POS Integration</TabsTrigger>
             <TabsTrigger value="billing">Billing</TabsTrigger>
             <TabsTrigger value="settings">Settings</TabsTrigger>
@@ -282,6 +284,10 @@ const BusinessDashboard = () => {
                 </div>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="phase3" className="space-y-4">
+            <Phase3Dashboard />
           </TabsContent>
 
           <TabsContent value="pos-integration" className="space-y-4">
