@@ -7,7 +7,6 @@ import POSIntegration from '@/components/POSIntegration';
 import BillingManagement from '@/components/BillingManagement';
 import CampaignCreator, { Campaign } from '@/components/CampaignCreator';
 import AdvancedCRM from '@/components/AdvancedCRM';
-import CustomerPortal from '@/components/CustomerPortal';
 import Phase3Dashboard from '@/components/Phase3Dashboard';
 import BusinessStats from '@/components/BusinessStats';
 import BusinessOverview from '@/components/BusinessOverview';
@@ -83,33 +82,18 @@ const BusinessDashboard = () => {
         <BusinessStats business={business} />
 
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-8">
+          <TabsList className="grid w-full grid-cols-7">
             <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="customers">Customers</TabsTrigger>
-            <TabsTrigger value="crm">Advanced CRM</TabsTrigger>
+            <TabsTrigger value="crm">CRM</TabsTrigger>
             <TabsTrigger value="campaigns">Campaigns</TabsTrigger>
-            <TabsTrigger value="phase3">Enterprise</TabsTrigger>
-            <TabsTrigger value="pos-integration">POS Integration</TabsTrigger>
+            <TabsTrigger value="enterprise">Enterprise</TabsTrigger>
+            <TabsTrigger value="pos-integration">POS</TabsTrigger>
             <TabsTrigger value="billing">Billing</TabsTrigger>
             <TabsTrigger value="settings">Settings</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-4">
             <BusinessOverview />
-          </TabsContent>
-
-          <TabsContent value="customers" className="space-y-4">
-            <CustomerPortal 
-              userId="demo-user"
-              customerData={{
-                name: "Demo Customer",
-                email: "demo@example.com",
-                phone: "(555) 123-4567",
-                joinDate: "2023-01-15",
-                tier: "gold",
-                wardNumber: 1
-              }}
-            />
           </TabsContent>
 
           <TabsContent value="crm" className="space-y-4">
@@ -123,7 +107,7 @@ const BusinessDashboard = () => {
             />
           </TabsContent>
 
-          <TabsContent value="phase3" className="space-y-4">
+          <TabsContent value="enterprise" className="space-y-4">
             <Phase3Dashboard />
           </TabsContent>
 

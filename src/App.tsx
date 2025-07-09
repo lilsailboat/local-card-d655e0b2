@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Index from './pages/Index';
 import Dashboard from './pages/Dashboard';
 import BusinessDashboard from './pages/BusinessDashboard';
+import BusinessAuth from './pages/BusinessAuth';
 import BusinessSignup from './pages/BusinessSignup';
 import AdminDashboard from './pages/AdminDashboard';
 import InvestorDashboard from './pages/InvestorDashboard';
@@ -27,6 +28,7 @@ function App() {
           <Route path="/" element={<Index />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/business" element={<BusinessDashboard />} />
+          <Route path="/business/auth" element={<BusinessAuth />} />
           <Route path="/business/signup" element={<BusinessSignup />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/investor" element={<InvestorDashboard />} />

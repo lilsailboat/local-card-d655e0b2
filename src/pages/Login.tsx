@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Mail, Lock, LogIn } from 'lucide-react';
+import { Mail, Lock, LogIn, Store } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
@@ -118,13 +118,24 @@ const Login = () => {
               {loading ? 'Signing in...' : 'Sign In'}
             </Button>
 
-            <div className="text-center">
+            <div className="text-center space-y-2">
               <p className="text-sm text-gray-600">
                 Don't have an account?{' '}
                 <a href="/signup" className="text-emerald-600 hover:underline">
                   Sign up
                 </a>
               </p>
+              <div className="border-t pt-4">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => navigate('/business/auth')}
+                >
+                  <Store className="h-4 w-4 mr-2" />
+                  Business Login
+                </Button>
+              </div>
             </div>
 
             <div className="mt-6 pt-4 border-t border-gray-200">
