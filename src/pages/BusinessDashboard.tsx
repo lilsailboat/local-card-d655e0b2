@@ -1,18 +1,18 @@
+
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Store, Users, TrendingUp, DollarSign, Calendar, Settings, Megaphone, Wifi, CreditCard, Shield } from 'lucide-react';
+import { Megaphone } from 'lucide-react';
 import POSIntegration from '@/components/POSIntegration';
 import BillingManagement from '@/components/BillingManagement';
 import CampaignCreator, { Campaign } from '@/components/CampaignCreator';
 import AdvancedCRM from '@/components/AdvancedCRM';
 import CustomerPortal from '@/components/CustomerPortal';
 import Phase3Dashboard from '@/components/Phase3Dashboard';
+import BusinessStats from '@/components/BusinessStats';
+import BusinessOverview from '@/components/BusinessOverview';
+import CampaignsList from '@/components/CampaignsList';
+import BusinessSettings from '@/components/BusinessSettings';
 
 const BusinessDashboard = () => {
   const [business] = useState({
@@ -61,22 +61,6 @@ const BusinessDashboard = () => {
     setShowCampaignCreator(false);
   };
 
-  const getCampaignStatusColor = (campaign: Campaign) => {
-    if (!campaign.isActive) return 'secondary';
-    if (campaign.maxRedemptions && campaign.currentRedemptions >= campaign.maxRedemptions) return 'destructive';
-    return 'default';
-  };
-
-  const getCampaignTypeLabel = (campaign: Campaign) => {
-    switch (campaign.type) {
-      case 'points_multiplier': return `${campaign.multiplier}X Points`;
-      case 'bonus_points': return `+${campaign.bonusAmount} Points`;
-      case 'discount': return `${campaign.discountPercent}% Off`;
-      case 'free_item': return campaign.freeItem;
-      default: return 'Campaign';
-    }
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
       <div className="container mx-auto px-4 py-8">
@@ -96,55 +80,7 @@ const BusinessDashboard = () => {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-600">Points Issued</p>
-                  <p className="text-2xl font-bold">{business.pointsIssued.toLocaleString()}</p>
-                </div>
-                <TrendingUp className="h-8 w-8 text-blue-600" />
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-600">Customers Served</p>
-                  <p className="text-2xl font-bold">{business.customersServed}</p>
-                </div>
-                <Users className="h-8 w-8 text-green-600" />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-600">Monthly Revenue</p>
-                  <p className="text-2xl font-bold">${business.revenue.toLocaleString()}</p>
-                </div>
-                <DollarSign className="h-8 w-8 text-emerald-600" />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-600">Avg Points/Transaction</p>
-                  <p className="text-2xl font-bold">{business.avgTransactionPoints}</p>
-                </div>
-                <Store className="h-8 w-8 text-purple-600" />
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+        <BusinessStats business={business} />
 
         <Tabs defaultValue="overview" className="space-y-6">
           <TabsList className="grid w-full grid-cols-8">
@@ -159,58 +95,7 @@ const BusinessDashboard = () => {
           </TabsList>
 
           <TabsContent value="overview" className="space-y-4">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Recent Activity</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-medium">Sarah J.</p>
-                        <p className="text-sm text-gray-600">2 hours ago</p>
-                      </div>
-                      <Badge variant="outline">+24 points</Badge>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-medium">Mike R.</p>
-                        <p className="text-sm text-gray-600">4 hours ago</p>
-                      </div>
-                      <Badge variant="outline">+31 points</Badge>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-medium">Emma L.</p>
-                        <p className="text-sm text-gray-600">6 hours ago</p>
-                      </div>
-                      <Badge variant="outline">+18 points</Badge>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Monthly Performance</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="flex justify-between">
-                      <span>Local Card Sales</span>
-                      <span className="font-semibold">78%</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div className="bg-blue-600 h-2 rounded-full" style={{width: '78%'}}></div>
-                    </div>
-                    <p className="text-sm text-gray-600">
-                      $3,567 of $4,568 total sales through Local Card
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+            <BusinessOverview />
           </TabsContent>
 
           <TabsContent value="customers" className="space-y-4">
@@ -232,58 +117,10 @@ const BusinessDashboard = () => {
           </TabsContent>
 
           <TabsContent value="campaigns" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Megaphone className="h-5 w-5 mr-2" />
-                  Active Campaigns
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {campaigns.map((campaign) => (
-                    <div key={campaign.id} className="flex justify-between items-center p-4 border rounded-lg">
-                      <div className="flex-1">
-                        <h3 className="font-semibold">{campaign.name}</h3>
-                        <p className="text-sm text-gray-600 mb-2">{campaign.description}</p>
-                        <p className="text-sm text-gray-600">
-                          {campaign.startDate} - {campaign.endDate}
-                        </p>
-                        <div className="flex items-center space-x-2 mt-2">
-                          <Badge variant="outline">
-                            Wards: {campaign.targetWards.join(', ')}
-                          </Badge>
-                          {campaign.maxRedemptions && (
-                            <Badge variant="outline">
-                              {campaign.currentRedemptions}/{campaign.maxRedemptions} used
-                            </Badge>
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex items-center space-x-2 ml-4">
-                        <Badge variant={getCampaignStatusColor(campaign)}>
-                          {campaign.isActive ? 'Active' : 'Draft'}
-                        </Badge>
-                        <Badge variant="outline">{getCampaignTypeLabel(campaign)}</Badge>
-                      </div>
-                    </div>
-                  ))}
-                  
-                  {campaigns.length === 0 && (
-                    <div className="text-center py-8 text-gray-500">
-                      <Megaphone className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                      <p>No campaigns created yet</p>
-                      <Button 
-                        onClick={() => setShowCampaignCreator(true)}
-                        className="mt-4 bg-blue-600 hover:bg-blue-700"
-                      >
-                        Create Your First Campaign
-                      </Button>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+            <CampaignsList 
+              campaigns={campaigns} 
+              onCreateCampaign={() => setShowCampaignCreator(true)} 
+            />
           </TabsContent>
 
           <TabsContent value="phase3" className="space-y-4">
@@ -299,28 +136,7 @@ const BusinessDashboard = () => {
           </TabsContent>
 
           <TabsContent value="settings" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Settings className="h-5 w-5 mr-2" />
-                  Business Settings
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <Button variant="outline" className="w-full justify-start">
-                  Billing & Payments
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  API Integration
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  Export Data
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  Support Tickets
-                </Button>
-              </CardContent>
-            </Card>
+            <BusinessSettings />
           </TabsContent>
         </Tabs>
 
