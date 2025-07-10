@@ -36,8 +36,7 @@ class IntegrationService {
   private onboardingFlows: Map<string, BusinessOnboardingFlow> = new Map();
 
   // Complete business onboarding orchestration
-  async initiateBusin
-essOnboarding(merchantData: {
+  async initiateBusinessOnboarding(merchantData: {
     merchantId: string;
     businessName: string;
     email: string;
@@ -251,8 +250,7 @@ essOnboarding(merchantData: {
   }
 
   // Complete onboarding and go live
-  async completeBusin
-essOnboarding(merchantId: string): Promise<boolean> {
+  async completeBusinessOnboarding(merchantId: string): Promise<boolean> {
     try {
       const flow = this.onboardingFlows.get(merchantId);
       if (!flow) return false;

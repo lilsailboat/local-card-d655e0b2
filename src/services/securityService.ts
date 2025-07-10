@@ -34,6 +34,20 @@ export interface ComplianceCheck {
   details: string;
 }
 
+export interface SecurityDashboard {
+  totalEvents: number;
+  blockedEvents: number;
+  trustedDevices: number;
+  riskScore: number;
+  activeThreats: number;
+}
+
+export interface TwoFactorSetup {
+  secret: string;
+  qrCode: string;
+  backupCodes: string[];
+}
+
 class SecurityService {
   private config: SecurityConfig = {
     encryptionMethod: 'AES-256-GCM',
@@ -191,6 +205,70 @@ class SecurityService {
 
   isTokenExpired(tokenTimestamp: number): boolean {
     return Date.now() - tokenTimestamp > this.config.tokenExpiration;
+  }
+
+  // Two-Factor Authentication
+  async initiate2FA(userId: string): Promise<TwoFactorSetup> {
+    const secret = this.generateSecureToken().substring(0, 32);
+    const qrCode = `data:image/svg+xml;base64,${btoa(`
+      <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+        <rect width="200" height="200" fill="white"/>
+        <text x="100" y="100" text-anchor="middle" font-family="Arial" font-size="12">
+          QR Code for ${userId}
+        </text>
+        <text x="100" y="120" text-anchor="middle" font-family="Arial" font-size="8">
+          Secret: ${secret}
+        </text>
+      </svg>
+    `)}`;
+    
+    const backupCodes = Array.from({ length: 10 }, () => 
+      Math.random().toString(36).substring(2, 10).toUpperCase()
+    );
+
+    await this.logAction(
+      '2fa_initiated',
+      'security',
+      userId,
+      true,
+      { secretLength: secret.length }
+    );
+
+    return { secret, qrCode, backupCodes };
+  }
+
+  // Security Dashboard
+  getSecurityDashboard(): SecurityDashboard {
+    const now = Date.now();
+    const last24Hours = now - 24 * 60 * 60 * 1000;
+    
+    const recentLogs = this.auditLogs.filter(log => 
+      new Date(log.timestamp).getTime() > last24Hours
+    );
+
+    return {
+      totalEvents: recentLogs.length,
+      blockedEvents: recentLogs.filter(log => !log.success).length,
+      trustedDevices: 28, // Mock data
+      riskScore: Math.round(Math.random() * 100),
+      activeThreats: recentLogs.filter(log => 
+        log.riskLevel === 'high' || log.riskLevel === 'critical'
+      ).length
+    };
+  }
+
+  // Security Recommendations
+  getSecurityRecommendations(): string[] {
+    return [
+      'Enable two-factor authentication for all admin accounts',
+      'Review and update API key rotation schedule',
+      'Conduct quarterly security audit of merchant access',
+      'Update firewall rules to block suspicious IP ranges',
+      'Implement additional monitoring for high-value transactions',
+      'Review data retention policies for compliance',
+      'Schedule penetration testing for Q2',
+      'Update security training for all staff members'
+    ];
   }
 
   // Compliance checks
