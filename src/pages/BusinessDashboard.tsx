@@ -82,9 +82,8 @@ const BusinessDashboard = () => {
         <BusinessStats business={business} />
 
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-7">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="crm">CRM</TabsTrigger>
             <TabsTrigger value="campaigns">Campaigns</TabsTrigger>
             <TabsTrigger value="enterprise">Enterprise</TabsTrigger>
             <TabsTrigger value="pos-integration">POS</TabsTrigger>
@@ -94,10 +93,6 @@ const BusinessDashboard = () => {
 
           <TabsContent value="overview" className="space-y-4">
             <BusinessOverview />
-          </TabsContent>
-
-          <TabsContent value="crm" className="space-y-4">
-            <AdvancedCRM />
           </TabsContent>
 
           <TabsContent value="campaigns" className="space-y-4">

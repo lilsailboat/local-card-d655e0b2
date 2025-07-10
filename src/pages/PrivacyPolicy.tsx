@@ -1,242 +1,197 @@
 
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Shield, Lock, Eye, Download } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft, Shield } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const PrivacyPolicy = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
-        <div className="mb-8 text-center">
-          <Shield className="h-12 w-12 text-blue-600 mx-auto mb-4" />
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Privacy Policy</h1>
-          <p className="text-gray-600">Last updated: January 8, 2024</p>
-        </div>
-
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle className="flex items-center">
-              <Eye className="h-5 w-5 mr-2" />
-              HIPAA-Compliant Data Practices
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-              <p className="text-blue-800 font-medium">
-                Important: Local Card does NOT collect, store, or process any Protected Health Information (PHI) 
-                as defined by HIPAA. We do not collect medical records, health conditions, prescription data, 
-                or any health-related information.
-              </p>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-50">
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex items-center mb-8">
+            <Button 
+              variant="ghost" 
+              onClick={() => navigate(-1)}
+              className="mr-4"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back
+            </Button>
+            <div className="flex items-center">
+              <Shield className="h-8 w-8 text-blue-600 mr-3" />
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900">Privacy Policy</h1>
+                <p className="text-gray-600">Last updated: {new Date().toLocaleDateString()}</p>
+              </div>
             </div>
-          </CardContent>
-        </Card>
-
-        <div className="space-y-8">
-          <Card>
-            <CardHeader>
-              <CardTitle>1. Information We Collect</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <h3 className="font-semibold mb-2">Personal Information</h3>
-                <ul className="list-disc list-inside space-y-1 text-gray-700">
-                  <li>First name and verified email address</li>
-                  <li>Encrypted password (using Argon2id hashing)</li>
-                  <li>ZIP code for business discovery</li>
-                  <li>Optional demographic preferences (age bracket, interests)</li>
-                </ul>
-              </div>
-              
-              <div>
-                <h3 className="font-semibold mb-2">Financial Information (Tokenized Only)</h3>
-                <ul className="list-disc list-inside space-y-1 text-gray-700">
-                  <li>Card token reference from Plaid (never raw card numbers)</li>
-                  <li>Last 4 digits of linked cards for identification</li>
-                  <li>Bank name and card type metadata</li>
-                  <li>Transaction amounts and merchant categories (anonymized)</li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="font-semibold mb-2">Usage Data</h3>
-                <ul className="list-disc list-inside space-y-1 text-gray-700">
-                  <li>App usage patterns and feature interactions</li>
-                  <li>Device information and browser type</li>
-                  <li>Location data (ZIP code level only)</li>
-                  <li>Session duration and frequency</li>
-                </ul>
-              </div>
-            </CardContent>
-          </Card>
+          </div>
 
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center">
-                <Lock className="h-5 w-5 mr-2" />
-                2. How We Protect Your Data
-              </CardTitle>
+              <CardTitle>Local Card Privacy Policy</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <h3 className="font-semibold mb-2">Encryption & Security</h3>
-                <ul className="list-disc list-inside space-y-1 text-gray-700">
-                  <li>AES-256 encryption for all data at rest</li>
-                  <li>TLS 1.3 encryption for all data in transit</li>
-                  <li>Zero-trust security architecture with role-based access</li>
-                  <li>Regular security audits and penetration testing</li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="font-semibold mb-2">Data Access Controls</h3>
-                <ul className="list-disc list-inside space-y-1 text-gray-700">
-                  <li>Least privilege access principles</li>
-                  <li>Multi-factor authentication for all staff accounts</li>
-                  <li>Complete audit logging of all data access</li>
-                  <li>Regular access reviews and permission updates</li>
-                </ul>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>3. Third-Party Service Providers</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div>
-                  <h3 className="font-semibold mb-2">Card Linking (Plaid)</h3>
-                  <p className="text-gray-700">
-                    We partner with Plaid for secure bank account and card linking. Plaid maintains SOC 2 Type II 
-                    certification and handles all sensitive financial data. We receive only tokenized references 
-                    and metadata, never raw account numbers or credentials.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="font-semibold mb-2">Analytics & Performance</h3>
-                  <p className="text-gray-700">
-                    We use privacy-focused analytics tools to understand app performance and user experience. 
-                    All data is aggregated and anonymized, with no personally identifiable information shared 
-                    with analytics providers.
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>4. Your Rights and Controls</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <h3 className="font-semibold mb-2">Data Access & Portability</h3>
-                <ul className="list-disc list-inside space-y-1 text-gray-700">
-                  <li>Request a copy of all your data in machine-readable format</li>
-                  <li>Review what information we have about you</li>
-                  <li>Correct any inaccurate information</li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="font-semibold mb-2">Account Deletion</h3>
-                <ul className="list-disc list-inside space-y-1 text-gray-700">
-                  <li>Request permanent deletion of your account and all associated data</li>
-                  <li>Secure data purging within 30 days of request</li>
-                  <li>Confirmation of deletion provided via email</li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="font-semibold mb-2">Communication Preferences</h3>
-                <ul className="list-disc list-inside space-y-1 text-gray-700">
-                  <li>Opt out of marketing communications at any time</li>
-                  <li>Control notification preferences and frequency</li>
-                  <li>Manage consent for different types of communications</li>
-                </ul>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>5. Data Retention</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div>
-                  <h3 className="font-semibold mb-2">Active Accounts</h3>
-                  <p className="text-gray-700">
-                    Data for active accounts is retained for as long as your account is active and for up to 
-                    7 years after account closure for business and legal compliance purposes.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="font-semibold mb-2">Inactive Accounts</h3>
-                  <p className="text-gray-700">
-                    Accounts inactive for more than 3 years will be automatically scheduled for deletion, 
-                    with 90 days notice provided via email before permanent deletion.
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>6. Compliance & Legal</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div>
-                  <h3 className="font-semibold mb-2">HIPAA Alignment</h3>
-                  <p className="text-gray-700">
-                    While Local Card is not a covered entity under HIPAA, our data practices align with 
-                    HIPAA principles to ensure the highest standards of privacy protection for potential 
-                    future partnerships with healthcare and wellness providers.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="font-semibold mb-2">State Privacy Laws</h3>
-                  <p className="text-gray-700">
-                    We comply with applicable state privacy laws including CCPA (California), GDPR (for EU users), 
-                    and other regional privacy regulations. Users have the right to know, delete, and opt-out 
-                    under these laws.
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Download className="h-5 w-5 mr-2" />
-                7. Contact & Data Requests
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <p className="text-gray-700">
-                  For privacy questions, data requests, or to exercise your rights under this policy, 
-                  contact our Data Protection Team:
+            <CardContent className="prose prose-gray max-w-none">
+              <section className="mb-8">
+                <h2 className="text-xl font-semibold mb-4">1. Information We Collect</h2>
+                <p className="mb-4">
+                  We collect information you provide directly to us, such as when you create an account, 
+                  make a purchase, or contact us for support.
                 </p>
                 
-                <div className="bg-gray-50 border rounded-lg p-4">
-                  <p><strong>Email:</strong> privacy@localcard.co</p>
-                  <p><strong>Response Time:</strong> Within 5 business days</p>
-                  <p><strong>Data Requests:</strong> Processed within 30 days</p>
-                </div>
+                <h3 className="text-lg font-medium mb-3">Personal Information</h3>
+                <ul className="list-disc pl-6 mb-4">
+                  <li>Name, email address, phone number</li>
+                  <li>Business information (for merchants)</li>
+                  <li>Payment and billing information</li>
+                  <li>Location data (ZIP code, ward information)</li>
+                </ul>
 
-                <p className="text-sm text-gray-600">
-                  This Privacy Policy may be updated periodically. We will notify users of material changes 
-                  via email and app notification at least 30 days before changes take effect.
+                <h3 className="text-lg font-medium mb-3">Automatically Collected Information</h3>
+                <ul className="list-disc pl-6 mb-4">
+                  <li>Device information and identifiers</li>
+                  <li>Log information (IP address, browser type)</li>
+                  <li>Usage data and analytics</li>
+                  <li>Cookies and similar technologies</li>
+                </ul>
+              </section>
+
+              <section className="mb-8">
+                <h2 className="text-xl font-semibold mb-4">2. How We Use Your Information</h2>
+                <p className="mb-4">We use the information we collect to:</p>
+                <ul className="list-disc pl-6 mb-4">
+                  <li>Provide, maintain, and improve our services</li>
+                  <li>Process transactions and manage loyalty programs</li>
+                  <li>Send you important updates and communications</li>
+                  <li>Analyze usage patterns and optimize our platform</li>
+                  <li>Prevent fraud and ensure security</li>
+                  <li>Comply with legal obligations</li>
+                </ul>
+              </section>
+
+              <section className="mb-8">
+                <h2 className="text-xl font-semibold mb-4">3. Information Sharing and Disclosure</h2>
+                <p className="mb-4">
+                  We do not sell, trade, or rent your personal information to third parties. We may share 
+                  your information in the following circumstances:
                 </p>
-              </div>
+                <ul className="list-disc pl-6 mb-4">
+                  <li>With your consent</li>
+                  <li>With service providers who assist our operations</li>
+                  <li>To comply with legal requirements</li>
+                  <li>To protect our rights and safety</li>
+                  <li>In connection with a business transfer</li>
+                </ul>
+              </section>
+
+              <section className="mb-8">
+                <h2 className="text-xl font-semibold mb-4">4. Data Security</h2>
+                <p className="mb-4">
+                  We implement appropriate security measures to protect your personal information:
+                </p>
+                <ul className="list-disc pl-6 mb-4">
+                  <li>AES-256 encryption for data at rest</li>
+                  <li>TLS 1.3 for data in transit</li>
+                  <li>Regular security audits and assessments</li>
+                  <li>Role-based access controls</li>
+                  <li>Comprehensive audit logging</li>
+                </ul>
+              </section>
+
+              <section className="mb-8">
+                <h2 className="text-xl font-semibold mb-4">5. Your Rights and Choices</h2>
+                <p className="mb-4">
+                  Depending on your location, you may have the following rights:
+                </p>
+                
+                <h3 className="text-lg font-medium mb-3">GDPR Rights (EU Users)</h3>
+                <ul className="list-disc pl-6 mb-4">
+                  <li>Right to access your personal data</li>
+                  <li>Right to rectification (correction)</li>
+                  <li>Right to erasure ("right to be forgotten")</li>
+                  <li>Right to restrict processing</li>
+                  <li>Right to data portability</li>
+                  <li>Right to object to processing</li>
+                </ul>
+
+                <h3 className="text-lg font-medium mb-3">CCPA Rights (California Users)</h3>
+                <ul className="list-disc pl-6 mb-4">
+                  <li>Right to know what personal information is collected</li>
+                  <li>Right to delete personal information</li>
+                  <li>Right to opt-out of sale of personal information</li>
+                  <li>Right to non-discrimination</li>
+                </ul>
+              </section>
+
+              <section className="mb-8">
+                <h2 className="text-xl font-semibold mb-4">6. Data Retention</h2>
+                <p className="mb-4">
+                  We retain your personal information for as long as necessary to provide our services 
+                  and comply with legal obligations. Specific retention periods include:
+                </p>
+                <ul className="list-disc pl-6 mb-4">
+                  <li>Account information: Duration of account plus 7 years</li>
+                  <li>Transaction data: 7 years for compliance purposes</li>
+                  <li>Marketing data: Until you opt-out or request deletion</li>
+                  <li>Security logs: 2 years</li>
+                </ul>
+              </section>
+
+              <section className="mb-8">
+                <h2 className="text-xl font-semibold mb-4">7. Third-Party Services</h2>
+                <p className="mb-4">
+                  Our platform integrates with third-party services that have their own privacy policies:
+                </p>
+                <ul className="list-disc pl-6 mb-4">
+                  <li>Stripe (payment processing)</li>
+                  <li>Square and Clover (POS integration)</li>
+                  <li>Analytics providers</li>
+                  <li>Communication services</li>
+                </ul>
+                <p className="mb-4">
+                  We encourage you to review the privacy policies of these third-party services.
+                </p>
+              </section>
+
+              <section className="mb-8">
+                <h2 className="text-xl font-semibold mb-4">8. Children's Privacy</h2>
+                <p className="mb-4">
+                  Our services are not intended for children under 13 years of age. We do not knowingly 
+                  collect personal information from children under 13.
+                </p>
+              </section>
+
+              <section className="mb-8">
+                <h2 className="text-xl font-semibold mb-4">9. International Data Transfers</h2>
+                <p className="mb-4">
+                  Your information may be transferred to and processed in countries other than your own. 
+                  We ensure appropriate safeguards are in place to protect your personal information.
+                </p>
+              </section>
+
+              <section className="mb-8">
+                <h2 className="text-xl font-semibold mb-4">10. Changes to This Policy</h2>
+                <p className="mb-4">
+                  We may update this privacy policy from time to time. We will notify you of any material 
+                  changes by posting the new policy on this page and updating the "Last updated" date.
+                </p>
+              </section>
+
+              <section className="mb-8">
+                <h2 className="text-xl font-semibold mb-4">11. Contact Us</h2>
+                <p className="mb-4">
+                  If you have any questions about this Privacy Policy, please contact us:
+                </p>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p><strong>Local Card Platform</strong></p>
+                  <p>Email: privacy@localcard.com</p>
+                  <p>Address: Washington, D.C.</p>
+                  <p>Phone: (202) 555-0123</p>
+                </div>
+              </section>
             </CardContent>
           </Card>
         </div>

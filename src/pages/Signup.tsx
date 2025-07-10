@@ -1,146 +1,112 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { MapPin, User, Mail, Lock, Phone, Users } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Mail, Lock, User, Phone, MapPin, UserPlus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { wardService } from '@/services/wardService';
-import { automationService } from '@/services/automationService';
-import { pointsEngine } from '@/services/pointsEngine';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
     firstName: '',
+    lastName: '',
     email: '',
     password: '',
     confirmPassword: '',
-    zipCode: '',
     phone: '',
-    referralCode: '',
-    ageBracket: '',
-    interests: [] as string[],
-    termsAccepted: false,
-    privacyAccepted: false,
-    marketingConsent: false
+    zipCode: '',
+    agreeToTerms: false,
+    subscribeToUpdates: true
   });
-  const [wardInfo, setWardInfo] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleZipCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const zipCode = e.target.value;
-    setFormData({...formData, zipCode});
-
-    // Check ward when ZIP code is complete
-    if (zipCode.length === 5) {
-      const ward = wardService.getWardByZipCode(zipCode);
-      setWardInfo(ward);
-    } else {
-      setWardInfo(null);
-    }
-  };
+  const selectedWard = wardService.getWardByZipCode(formData.zipCode);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match');
-      return;
-    }
-    if (!formData.termsAccepted || !formData.privacyAccepted) {
-      alert('Please accept Terms of Service and Privacy Policy');
-      return;
-    }
-    
     setLoading(true);
+    setError('');
 
-    try {
-      // Create user account
-      const userId = `user_${Date.now()}`;
-      
-      // Initialize user points
-      pointsEngine.initializeUser(userId);
-      
-      // Process referral if provided
-      if (formData.referralCode) {
-        const referrerId = formData.referralCode; // In real app, lookup referrer by code
-        await automationService.processReferral(referrerId, userId);
-      }
-
-      console.log('User created:', {
-        userId,
-        email: formData.email,
-        ward: wardInfo?.number,
-        referralCode: formData.referralCode
-      });
-
-      // Simulate API call
-      setTimeout(() => {
-        setLoading(false);
-        navigate('/link-card');
-      }, 1500);
-    } catch (error) {
-      console.error('Signup error:', error);
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
       setLoading(false);
+      return;
     }
+
+    if (!formData.agreeToTerms) {
+      setError('Please agree to the Terms of Service');
+      setLoading(false);
+      return;
+    }
+
+    // Simulate signup API call
+    setTimeout(() => {
+      setLoading(false);
+      navigate('/dashboard');
+    }, 2000);
   };
 
-  const interestOptions = [
-    'Food & Dining', 'Retail & Shopping', 'Health & Wellness', 
-    'Entertainment', 'Services', 'Automotive'
-  ];
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-blue-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-lg">
+      <Card className="w-full max-w-md">
         <CardHeader className="text-center">
+          <div className="flex justify-center mb-4">
+            <UserPlus className="h-12 w-12 text-emerald-600" />
+          </div>
           <CardTitle className="text-2xl font-bold text-emerald-600">Join Local Card</CardTitle>
-          <p className="text-gray-600">Support local businesses and earn rewards automatically</p>
+          <p className="text-gray-600">Create your account and start earning points at local D.C. businesses</p>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
+            {error && (
+              <Alert variant="destructive">
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="firstName">First Name *</Label>
+                <Label htmlFor="firstName">First Name</Label>
                 <div className="relative">
                   <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
                     id="firstName"
-                    type="text"
                     placeholder="John"
                     className="pl-10"
                     value={formData.firstName}
-                    onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                    onChange={(e) => handleInputChange('firstName', e.target.value)}
                     required
                   />
                 </div>
               </div>
               <div>
-                <Label htmlFor="zipCode">ZIP Code *</Label>
+                <Label htmlFor="lastName">Last Name</Label>
                 <div className="relative">
-                  <MapPin className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
-                    id="zipCode"
-                    type="text"
-                    placeholder="12345"
+                    id="lastName"
+                    placeholder="Doe"
                     className="pl-10"
-                    value={formData.zipCode}
-                    onChange={handleZipCodeChange}
+                    value={formData.lastName}
+                    onChange={(e) => handleInputChange('lastName', e.target.value)}
                     required
                   />
                 </div>
-                {wardInfo && (
-                  <p className="text-sm text-emerald-600 mt-1">
-                    📍 Ward {wardInfo.number}: {wardInfo.name}
-                  </p>
-                )}
               </div>
             </div>
 
             <div>
-              <Label htmlFor="email">Email Address *</Label>
+              <Label htmlFor="email">Email Address</Label>
               <div className="relative">
                 <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                 <Input
@@ -149,46 +115,50 @@ const Signup = () => {
                   placeholder="john@example.com"
                   className="pl-10"
                   value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  onChange={(e) => handleInputChange('email', e.target.value)}
                   required
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="phone">Phone (Optional)</Label>
-                <div className="relative">
-                  <Phone className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                  <Input
-                    id="phone"
-                    type="tel"
-                    placeholder="(555) 123-4567"
-                    className="pl-10"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                  />
-                </div>
+            <div>
+              <Label htmlFor="phone">Phone Number</Label>
+              <div className="relative">
+                <Phone className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                <Input
+                  id="phone"
+                  placeholder="(202) 555-0123"
+                  className="pl-10"
+                  value={formData.phone}
+                  onChange={(e) => handleInputChange('phone', e.target.value)}
+                  required
+                />
               </div>
-              <div>
-                <Label htmlFor="referralCode">Referral Code (Optional)</Label>
-                <div className="relative">
-                  <Users className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                  <Input
-                    id="referralCode"
-                    type="text"
-                    placeholder="FRIEND2024"
-                    className="pl-10"
-                    value={formData.referralCode}
-                    onChange={(e) => setFormData({...formData, referralCode: e.target.value})}
-                  />
-                </div>
+            </div>
+
+            <div>
+              <Label htmlFor="zipCode">ZIP Code</Label>
+              <div className="relative">
+                <MapPin className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                <Input
+                  id="zipCode"
+                  placeholder="20009"
+                  className="pl-10"
+                  value={formData.zipCode}
+                  onChange={(e) => handleInputChange('zipCode', e.target.value)}
+                  required
+                />
               </div>
+              {selectedWard && (
+                <p className="text-sm text-emerald-600 mt-1">
+                  📍 Ward {selectedWard.number}: {selectedWard.name}
+                </p>
+              )}
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="password">Password *</Label>
+                <Label htmlFor="password">Password</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
@@ -197,13 +167,13 @@ const Signup = () => {
                     placeholder="••••••••"
                     className="pl-10"
                     value={formData.password}
-                    onChange={(e) => setFormData({...formData, password: e.target.value})}
+                    onChange={(e) => handleInputChange('password', e.target.value)}
                     required
                   />
                 </div>
               </div>
               <div>
-                <Label htmlFor="confirmPassword">Confirm Password *</Label>
+                <Label htmlFor="confirmPassword">Confirm Password</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
@@ -212,87 +182,41 @@ const Signup = () => {
                     placeholder="••••••••"
                     className="pl-10"
                     value={formData.confirmPassword}
-                    onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
+                    onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
                     required
                   />
                 </div>
               </div>
             </div>
 
-            <div>
-              <Label>Age Bracket (Optional)</Label>
-              <select 
-                className="w-full mt-1 p-2 border border-gray-300 rounded-md"
-                value={formData.ageBracket}
-                onChange={(e) => setFormData({...formData, ageBracket: e.target.value})}
-              >
-                <option value="">Select age bracket</option>
-                <option value="18-24">18-24</option>
-                <option value="25-34">25-34</option>
-                <option value="35-44">35-44</option>
-                <option value="45-54">45-54</option>
-                <option value="55+">55+</option>
-              </select>
-            </div>
-
-            <div>
-              <Label>Interests (Optional)</Label>
-              <div className="grid grid-cols-2 gap-2 mt-2">
-                {interestOptions.map((interest) => (
-                  <div key={interest} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={interest}
-                      checked={formData.interests.includes(interest)}
-                      onCheckedChange={(checked) => {
-                        if (checked) {
-                          setFormData({...formData, interests: [...formData.interests, interest]});
-                        } else {
-                          setFormData({...formData, interests: formData.interests.filter(i => i !== interest)});
-                        }
-                      }}
-                    />
-                    <Label htmlFor={interest} className="text-sm">{interest}</Label>
-                  </div>
-                ))}
+            <div className="space-y-3">
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="agreeToTerms"
+                  checked={formData.agreeToTerms}
+                  onCheckedChange={(checked) => 
+                    setFormData(prev => ({ ...prev, agreeToTerms: checked as boolean }))
+                  }
+                />
+                <Label htmlFor="agreeToTerms" className="text-sm">
+                  I agree to the <a href="/terms" className="text-emerald-600 hover:underline">Terms of Service</a> and{' '}
+                  <a href="/privacy" className="text-emerald-600 hover:underline">Privacy Policy</a>
+                </Label>
+              </div>
+              
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="subscribeToUpdates"
+                  checked={formData.subscribeToUpdates}
+                  onCheckedChange={(checked) => 
+                    setFormData(prev => ({ ...prev, subscribeToUpdates: checked as boolean }))
+                  }
+                />
+                <Label htmlFor="subscribeToUpdates" className="text-sm">
+                  Subscribe to Local Card updates and special offers
+                </Label>
               </div>
             </div>
-
-            <Alert>
-              <AlertDescription className="space-y-3">
-                <div className="flex items-start space-x-2">
-                  <Checkbox
-                    id="terms"
-                    checked={formData.termsAccepted}
-                    onCheckedChange={(checked) => setFormData({...formData, termsAccepted: !!checked})}
-                    required
-                  />
-                  <Label htmlFor="terms" className="text-sm">
-                    I agree to the <a href="/terms" className="text-emerald-600 hover:underline">Terms of Service</a> *
-                  </Label>
-                </div>
-                <div className="flex items-start space-x-2">
-                  <Checkbox
-                    id="privacy"
-                    checked={formData.privacyAccepted}
-                    onCheckedChange={(checked) => setFormData({...formData, privacyAccepted: !!checked})}
-                    required
-                  />
-                  <Label htmlFor="privacy" className="text-sm">
-                    I agree to the <a href="/privacy" className="text-emerald-600 hover:underline">Privacy Policy</a> *
-                  </Label>
-                </div>
-                <div className="flex items-start space-x-2">
-                  <Checkbox
-                    id="marketing"
-                    checked={formData.marketingConsent}
-                    onCheckedChange={(checked) => setFormData({...formData, marketingConsent: !!checked})}
-                  />
-                  <Label htmlFor="marketing" className="text-sm">
-                    I agree to receive marketing communications (Optional)
-                  </Label>
-                </div>
-              </AlertDescription>
-            </Alert>
 
             <Button 
               type="submit" 
