@@ -13,7 +13,8 @@ import {
   MapPin,
   Award,
   ChevronRight,
-  CheckCircle
+  CheckCircle,
+  Calendar
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -84,10 +85,11 @@ const Index = () => {
                 Sign In
               </Button>
               <Button 
-                onClick={() => navigate('/business/auth')}
+                onClick={() => window.open('https://calendly.com/localcard-demo', '_blank')}
                 className="bg-blue-600 hover:bg-blue-700"
               >
-                For Businesses
+                <Calendar className="mr-2 h-4 w-4" />
+                Schedule Demo
               </Button>
             </div>
           </div>
@@ -125,10 +127,11 @@ const Index = () => {
             <Button 
               size="lg" 
               variant="outline" 
-              onClick={() => navigate('/business/auth')}
+              onClick={() => window.open('https://calendly.com/localcard-demo', '_blank')}
               className="px-8 py-3"
             >
-              Business Demo
+              <Calendar className="mr-2 h-4 w-4" />
+              Schedule Demo
             </Button>
           </div>
         </div>
@@ -232,10 +235,11 @@ const Index = () => {
             <Button 
               size="lg" 
               variant="outline" 
-              onClick={() => navigate('/customer')}
+              onClick={() => window.open('https://calendly.com/localcard-demo', '_blank')}
               className="border-white text-white hover:bg-white/10 px-8 py-3"
             >
-              View Customer Portal
+              <Calendar className="mr-2 h-4 w-4" />
+              Schedule Demo
             </Button>
           </div>
         </div>
