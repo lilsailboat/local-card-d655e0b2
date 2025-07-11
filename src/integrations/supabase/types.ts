@@ -14,13 +14,216 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      api_keys: {
+        Row: {
+          created_at: string
+          expires_at: string
+          id: string
+          is_active: boolean
+          key_hash: string
+          key_name: string
+          last_used_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          is_active?: boolean
+          key_hash: string
+          key_name: string
+          last_used_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          is_active?: boolean
+          key_hash?: string
+          key_name?: string
+          last_used_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          first_name: string | null
+          id: string
+          last_name: string | null
+          phone: string | null
+          role: string
+          updated_at: string
+          ward_number: number | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          first_name?: string | null
+          id: string
+          last_name?: string | null
+          phone?: string | null
+          role?: string
+          updated_at?: string
+          ward_number?: number | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          phone?: string | null
+          role?: string
+          updated_at?: string
+          ward_number?: number | null
+        }
+        Relationships: []
+      }
+      security_audit_logs: {
+        Row: {
+          action: string
+          created_at: string
+          details: Json | null
+          id: string
+          ip_address: unknown | null
+          resource: string
+          risk_level: string
+          success: boolean
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          ip_address?: unknown | null
+          resource: string
+          risk_level?: string
+          success: boolean
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          ip_address?: unknown | null
+          resource?: string
+          risk_level?: string
+          success?: boolean
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      security_settings: {
+        Row: {
+          id: string
+          setting_name: string
+          setting_value: Json
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          id?: string
+          setting_name: string
+          setting_value: Json
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          id?: string
+          setting_name?: string
+          setting_value?: Json
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
+      transactions: {
+        Row: {
+          amount: number
+          created_at: string
+          currency: string
+          flagged_reason: string | null
+          id: string
+          merchant_id: string | null
+          pos_system: string | null
+          risk_score: number | null
+          status: string
+          type: string
+          user_id: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          currency?: string
+          flagged_reason?: string | null
+          id?: string
+          merchant_id?: string | null
+          pos_system?: string | null
+          risk_score?: number | null
+          status?: string
+          type: string
+          user_id?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          currency?: string
+          flagged_reason?: string | null
+          id?: string
+          merchant_id?: string | null
+          pos_system?: string | null
+          risk_score?: number | null
+          status?: string
+          type?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      user_2fa: {
+        Row: {
+          backup_codes: string[] | null
+          created_at: string
+          enabled: boolean
+          id: string
+          secret: string
+          user_id: string | null
+        }
+        Insert: {
+          backup_codes?: string[] | null
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          secret: string
+          user_id?: string | null
+        }
+        Update: {
+          backup_codes?: string[] | null
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          secret?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_user_role: {
+        Args: { user_id: string }
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never
