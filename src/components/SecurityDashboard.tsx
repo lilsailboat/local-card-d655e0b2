@@ -256,7 +256,7 @@ const SecurityDashboard = () => {
                       </div>
                       <div className="text-sm text-gray-500">
                         <p>Time: {new Date(log.created_at).toLocaleString()}</p>
-                        {log.ip_address && <p>IP: {log.ip_address}</p>}
+                        {log.ip_address && <p>IP: {String(log.ip_address)}</p>}
                         {log.details && (
                           <p>Details: {JSON.stringify(log.details)}</p>
                         )}
