@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -157,7 +158,7 @@ const Index = () => {
             </div>
           </div>
           <div className="border-t border-gray-800 pt-8 mt-8 text-center text-gray-400">
-            <p>&copy; 2024 Local Card. All rights reserved. Secure, compliant, and community-focused.</p>
+            <p>&copy; 2024 Local Card. All rights reserved. Built for communities.</p>
           </div>
         </div>
       </footer>
