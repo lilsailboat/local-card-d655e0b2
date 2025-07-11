@@ -75,14 +75,16 @@ const BusinessAuth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-2xl">
-        <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
-            <Store className="h-12 w-12 text-blue-600" />
+    <div className="min-h-screen bg-background flex items-center justify-center p-6">
+      <Card className="w-full max-w-2xl border-0 shadow-lg">
+        <CardHeader className="text-center space-y-4">
+          <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+            <Store className="h-6 w-6 text-primary" />
           </div>
-          <CardTitle className="text-3xl font-bold text-blue-600">Local Card Business</CardTitle>
-          <p className="text-gray-600">Join the local business community</p>
+          <div className="space-y-2">
+            <CardTitle className="text-2xl font-semibold">Local Card Business</CardTitle>
+            <p className="text-muted-foreground">Join the local business community</p>
+          </div>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="signin" className="space-y-6">
@@ -100,10 +102,10 @@ const BusinessAuth = () => {
                   </Alert>
                 )}
 
-                <div>
-                  <Label htmlFor="signin-email">Email Address</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="signin-email">Email</Label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                    <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="signin-email"
                       type="email"
@@ -116,14 +118,14 @@ const BusinessAuth = () => {
                   </div>
                 </div>
 
-                <div>
+                <div className="space-y-2">
                   <Label htmlFor="signin-password">Password</Label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="signin-password"
                       type="password"
-                      placeholder="••••••••"
+                      placeholder="Enter your password"
                       className="pl-10"
                       value={signInData.password}
                       onChange={(e) => setSignInData({...signInData, password: e.target.value})}
@@ -134,16 +136,16 @@ const BusinessAuth = () => {
 
                 <Button 
                   type="submit" 
-                  className="w-full bg-blue-600 hover:bg-blue-700"
+                  className="w-full"
                   disabled={loading}
                 >
                   {loading ? 'Signing in...' : 'Sign In'}
                 </Button>
 
                 <div className="text-center">
-                  <a href="#" className="text-sm text-blue-600 hover:underline">
+                  <Button variant="link" className="text-sm">
                     Forgot your password?
-                  </a>
+                  </Button>
                 </div>
               </form>
             </TabsContent>
@@ -158,10 +160,10 @@ const BusinessAuth = () => {
                 )}
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="businessName">Business Name *</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="businessName">Business Name</Label>
                     <div className="relative">
-                      <Store className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <Store className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="businessName"
                         placeholder="Maya's Coffee House"
@@ -172,10 +174,10 @@ const BusinessAuth = () => {
                       />
                     </div>
                   </div>
-                  <div>
-                    <Label htmlFor="ownerName">Owner Name *</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="ownerName">Owner Name</Label>
                     <div className="relative">
-                      <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="ownerName"
                         placeholder="Maya Johnson"
@@ -189,10 +191,10 @@ const BusinessAuth = () => {
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="email">Email *</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
                     <div className="relative">
-                      <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="email"
                         type="email"
@@ -204,10 +206,10 @@ const BusinessAuth = () => {
                       />
                     </div>
                   </div>
-                  <div>
-                    <Label htmlFor="phone">Phone *</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Phone</Label>
                     <div className="relative">
-                      <Phone className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="phone"
                         placeholder="(202) 555-0123"
@@ -220,10 +222,10 @@ const BusinessAuth = () => {
                   </div>
                 </div>
 
-                <div>
-                  <Label htmlFor="address">Business Address *</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="address">Business Address</Label>
                   <div className="relative">
-                    <MapPin className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                    <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="address"
                       placeholder="1234 Main St NW, Washington, DC"
@@ -236,8 +238,8 @@ const BusinessAuth = () => {
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="zipCode">ZIP Code *</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="zipCode">ZIP Code</Label>
                     <Input
                       id="zipCode"
                       placeholder="20009"
@@ -246,13 +248,13 @@ const BusinessAuth = () => {
                       required
                     />
                     {selectedWard && (
-                      <p className="text-sm text-blue-600 mt-1">
+                      <p className="text-sm text-primary">
                         📍 Ward {selectedWard.number}: {selectedWard.name}
                       </p>
                     )}
                   </div>
-                  <div>
-                    <Label htmlFor="category">Category *</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="category">Category</Label>
                     <Select onValueChange={(value) => setSignUpData({...signUpData, category: value})}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select category" />
@@ -271,14 +273,14 @@ const BusinessAuth = () => {
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="password">Password *</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="password">Password</Label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="password"
                         type="password"
-                        placeholder="••••••••"
+                        placeholder="Create password"
                         className="pl-10"
                         value={signUpData.password}
                         onChange={(e) => setSignUpData({...signUpData, password: e.target.value})}
@@ -286,14 +288,14 @@ const BusinessAuth = () => {
                       />
                     </div>
                   </div>
-                  <div>
-                    <Label htmlFor="confirmPassword">Confirm Password *</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="confirmPassword">Confirm Password</Label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="confirmPassword"
                         type="password"
-                        placeholder="••••••••"
+                        placeholder="Confirm password"
                         className="pl-10"
                         value={signUpData.confirmPassword}
                         onChange={(e) => setSignUpData({...signUpData, confirmPassword: e.target.value})}
@@ -303,7 +305,7 @@ const BusinessAuth = () => {
                   </div>
                 </div>
 
-                <div>
+                <div className="space-y-2">
                   <Label htmlFor="description">Business Description</Label>
                   <Textarea
                     id="description"
@@ -314,7 +316,7 @@ const BusinessAuth = () => {
                   />
                 </div>
 
-                <div>
+                <div className="space-y-2">
                   <Label htmlFor="website">Website (Optional)</Label>
                   <Input
                     id="website"
@@ -326,7 +328,7 @@ const BusinessAuth = () => {
 
                 <Button 
                   type="submit" 
-                  className="w-full bg-blue-600 hover:bg-blue-700"
+                  className="w-full"
                   disabled={loading || !signUpData.businessName || !signUpData.email}
                 >
                   {loading ? 'Creating Account...' : 'Create Business Account'}
@@ -336,8 +338,8 @@ const BusinessAuth = () => {
           </Tabs>
 
           <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
-              Need help? <a href="/business/signup" className="text-blue-600 hover:underline">View pricing</a>
+            <p className="text-sm text-muted-foreground">
+              Need help? <Button variant="link" className="p-0 h-auto text-sm" onClick={() => navigate('/business/signup')}>View pricing</Button>
             </p>
           </div>
         </CardContent>

@@ -28,15 +28,19 @@ const LinkCard = () => {
 
   if (step === 3) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-blue-50 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md">
-          <CardContent className="p-8 text-center">
-            <CheckCircle className="h-16 w-16 text-emerald-600 mx-auto mb-4" />
-            <h1 className="text-2xl font-bold mb-2">Card Linked Successfully!</h1>
-            <p className="text-gray-600 mb-6">
-              Your debit card ending in 4532 has been securely linked. You'll now earn points automatically when shopping at Local Card businesses.
-            </p>
-            <Button onClick={handleComplete} className="w-full bg-emerald-600 hover:bg-emerald-700">
+      <div className="min-h-screen bg-background flex items-center justify-center p-6">
+        <Card className="w-full max-w-md border-0 shadow-lg">
+          <CardContent className="pt-8 text-center space-y-6">
+            <div className="mx-auto w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center">
+              <CheckCircle className="h-8 w-8 text-green-500" />
+            </div>
+            <div className="space-y-2">
+              <h1 className="text-2xl font-semibold">Card Linked Successfully</h1>
+              <p className="text-muted-foreground">
+                Your debit card ending in 4532 has been securely linked. You'll now earn points automatically when shopping at Local Card businesses.
+              </p>
+            </div>
+            <Button onClick={handleComplete} className="w-full">
               Go to Dashboard
             </Button>
           </CardContent>
@@ -46,16 +50,18 @@ const LinkCard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-blue-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
-            <CreditCard className="h-12 w-12 text-emerald-600" />
+    <div className="min-h-screen bg-background flex items-center justify-center p-6">
+      <Card className="w-full max-w-md border-0 shadow-lg">
+        <CardHeader className="text-center space-y-4">
+          <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+            <CreditCard className="h-6 w-6 text-primary" />
           </div>
-          <CardTitle className="text-2xl">Link Your Card</CardTitle>
-          <p className="text-gray-600">
-            Securely connect your debit or credit card to start earning points automatically
-          </p>
+          <div className="space-y-2">
+            <CardTitle className="text-2xl font-semibold">Link Your Card</CardTitle>
+            <p className="text-muted-foreground">
+              Securely connect your debit or credit card to start earning points automatically
+            </p>
+          </div>
         </CardHeader>
         <CardContent className="space-y-6">
           {step === 1 && (
@@ -68,29 +74,26 @@ const LinkCard = () => {
               </Alert>
 
               <div className="space-y-4">
-                <div>
+                <div className="space-y-2">
                   <Label htmlFor="cardNumber">Card Number</Label>
                   <Input 
                     id="cardNumber" 
                     placeholder="1234 5678 9012 3456"
-                    className="mt-1"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                  <div>
+                  <div className="space-y-2">
                     <Label htmlFor="expiry">Expiry</Label>
                     <Input 
                       id="expiry" 
                       placeholder="MM/YY"
-                      className="mt-1"
                     />
                   </div>
-                  <div>
+                  <div className="space-y-2">
                     <Label htmlFor="cvv">CVV</Label>
                     <Input 
                       id="cvv" 
                       placeholder="123"
-                      className="mt-1"
                     />
                   </div>
                 </div>
@@ -98,13 +101,13 @@ const LinkCard = () => {
 
               <Button 
                 onClick={() => setStep(2)} 
-                className="w-full bg-emerald-600 hover:bg-emerald-700"
+                className="w-full"
               >
                 Continue
               </Button>
 
               <div className="text-center">
-                <Button variant="link" onClick={handlePlaidLink}>
+                <Button variant="link" onClick={handlePlaidLink} className="text-sm">
                   <Lock className="h-4 w-4 mr-2" />
                   Use Plaid Secure Link Instead
                 </Button>
@@ -114,9 +117,9 @@ const LinkCard = () => {
 
           {step === 2 && (
             <>
-              <div className="text-center">
-                <h3 className="text-lg font-semibold mb-4">Verify Your Identity</h3>
-                <p className="text-gray-600 mb-6">
+              <div className="text-center space-y-4">
+                <h3 className="text-lg font-semibold">Verify Your Identity</h3>
+                <p className="text-muted-foreground">
                   We'll send a small verification charge (refunded immediately) to confirm your card
                 </p>
               </div>
@@ -124,14 +127,14 @@ const LinkCard = () => {
               <Button 
                 onClick={handlePlaidLink}
                 disabled={loading}
-                className="w-full bg-emerald-600 hover:bg-emerald-700"
+                className="w-full"
               >
                 {loading ? 'Verifying...' : 'Verify Card'}
               </Button>
             </>
           )}
 
-          <div className="text-xs text-gray-500 text-center">
+          <div className="text-xs text-muted-foreground text-center space-y-1">
             <p>🔒 Protected by 256-bit SSL encryption</p>
             <p>We never store your full card number</p>
           </div>

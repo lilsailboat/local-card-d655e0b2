@@ -6,7 +6,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
 import { CheckCircle, Store, DollarSign, TrendingUp, Users } from 'lucide-react';
 import { wardService } from '@/services/wardService';
 import { useNavigate } from 'react-router-dom';
@@ -28,7 +27,6 @@ const BusinessSignup = () => {
     estimatedMonthlyRevenue: ''
   });
 
-  const wards = wardService.getAllWards();
   const selectedWard = wardService.getWardByZipCode(businessData.zipCode);
 
   const handleInputChange = (field: string, value: string) => {
@@ -61,34 +59,36 @@ const BusinessSignup = () => {
 
   if (step === 1) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 p-4">
+      <div className="min-h-screen bg-background p-6">
         <div className="container mx-auto max-w-6xl">
           {/* Header */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">Join Local Card for Business</h1>
-            <p className="text-xl text-gray-600">Connect with D.C. residents and grow your local customer base</p>
+          <div className="text-center mb-12 space-y-4">
+            <h1 className="text-4xl font-bold">Join Local Card for Business</h1>
+            <p className="text-xl text-muted-foreground">Connect with customers and grow your local business</p>
           </div>
 
           {/* Pricing Card */}
-          <Card className="mb-8 border-2 border-blue-200 shadow-lg">
-            <CardHeader className="bg-blue-50">
+          <Card className="mb-8 border-2 border-primary/20">
+            <CardHeader className="bg-primary/5">
               <CardTitle className="text-center">
-                <div className="flex items-center justify-center mb-2">
-                  <Store className="h-8 w-8 text-blue-600 mr-2" />
-                  <span className="text-2xl">Business Plan</span>
+                <div className="flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mr-3">
+                    <Store className="h-6 w-6 text-primary" />
+                  </div>
+                  <span className="text-2xl font-semibold">Business Plan</span>
                 </div>
-                <div className="text-3xl font-bold text-blue-600">$40/month</div>
-                <div className="text-sm text-gray-600">+ 3% commission on Local Card transactions</div>
+                <div className="text-3xl font-bold text-primary">$40/month</div>
+                <div className="text-sm text-muted-foreground">+ 3% commission on Local Card transactions</div>
               </CardTitle>
             </CardHeader>
-            <CardContent className="p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h3 className="font-semibold mb-3 flex items-center">
+            <CardContent className="p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-4">
+                  <h3 className="font-semibold flex items-center text-lg">
                     <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
                     What's Included
                   </h3>
-                  <ul className="space-y-2 text-sm">
+                  <ul className="space-y-2 text-muted-foreground">
                     <li>• POS system integration</li>
                     <li>• Ward-based customer targeting</li>
                     <li>• Campaign creation tools</li>
@@ -97,13 +97,13 @@ const BusinessSignup = () => {
                     <li>• Transaction processing</li>
                   </ul>
                 </div>
-                <div>
-                  <h3 className="font-semibold mb-3 flex items-center">
-                    <TrendingUp className="h-5 w-5 text-blue-500 mr-2" />
+                <div className="space-y-4">
+                  <h3 className="font-semibold flex items-center text-lg">
+                    <TrendingUp className="h-5 w-5 text-primary mr-2" />
                     Benefits
                   </h3>
-                  <ul className="space-y-2 text-sm">
-                    <li>• Attract local D.C. customers</li>
+                  <ul className="space-y-2 text-muted-foreground">
+                    <li>• Attract local customers</li>
                     <li>• Increase customer retention</li>
                     <li>• Ward-based marketing campaigns</li>
                     <li>• Detailed customer insights</li>
@@ -116,26 +116,32 @@ const BusinessSignup = () => {
           </Card>
 
           {/* Demo Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <Card>
-              <CardContent className="p-6 text-center">
-                <DollarSign className="h-12 w-12 text-green-600 mx-auto mb-4" />
-                <div className="text-2xl font-bold text-gray-900">25%</div>
-                <div className="text-gray-600">Average Revenue Increase</div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <Card className="text-center p-6">
+              <CardContent className="space-y-4">
+                <div className="w-12 h-12 bg-green-500/10 rounded-full flex items-center justify-center mx-auto">
+                  <DollarSign className="h-6 w-6 text-green-500" />
+                </div>
+                <div className="text-2xl font-bold">25%</div>
+                <div className="text-muted-foreground">Average Revenue Increase</div>
               </CardContent>
             </Card>
-            <Card>
-              <CardContent className="p-6 text-center">
-                <Users className="h-12 w-12 text-blue-600 mx-auto mb-4" />
-                <div className="text-2xl font-bold text-gray-900">40%</div>
-                <div className="text-gray-600">Customer Retention Boost</div>
+            <Card className="text-center p-6">
+              <CardContent className="space-y-4">
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
+                  <Users className="h-6 w-6 text-primary" />
+                </div>
+                <div className="text-2xl font-bold">40%</div>
+                <div className="text-muted-foreground">Customer Retention Boost</div>
               </CardContent>
             </Card>
-            <Card>
-              <CardContent className="p-6 text-center">
-                <TrendingUp className="h-12 w-12 text-purple-600 mx-auto mb-4" />
-                <div className="text-2xl font-bold text-gray-900">15%</div>
-                <div className="text-gray-600">New Customer Acquisition</div>
+            <Card className="text-center p-6">
+              <CardContent className="space-y-4">
+                <div className="w-12 h-12 bg-purple-500/10 rounded-full flex items-center justify-center mx-auto">
+                  <TrendingUp className="h-6 w-6 text-purple-500" />
+                </div>
+                <div className="text-2xl font-bold">15%</div>
+                <div className="text-muted-foreground">New Customer Acquisition</div>
               </CardContent>
             </Card>
           </div>
@@ -143,7 +149,7 @@ const BusinessSignup = () => {
           <div className="text-center">
             <Button 
               onClick={() => setStep(2)} 
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg"
+              className="px-8 py-3 text-lg"
             >
               Get Started - Apply Now
             </Button>
@@ -154,16 +160,16 @@ const BusinessSignup = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 p-4">
+    <div className="min-h-screen bg-background p-6">
       <div className="container mx-auto max-w-2xl">
-        <Card>
-          <CardHeader>
-            <CardTitle>Business Application</CardTitle>
-            <p className="text-gray-600">Tell us about your business to get started</p>
+        <Card className="border-0 shadow-lg">
+          <CardHeader className="space-y-2">
+            <CardTitle className="text-2xl font-semibold">Business Application</CardTitle>
+            <p className="text-muted-foreground">Tell us about your business to get started</p>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-6">
             <div className="grid grid-cols-2 gap-4">
-              <div>
+              <div className="space-y-2">
                 <Label htmlFor="businessName">Business Name *</Label>
                 <Input
                   id="businessName"
@@ -172,7 +178,7 @@ const BusinessSignup = () => {
                   placeholder="Maya's Coffee House"
                 />
               </div>
-              <div>
+              <div className="space-y-2">
                 <Label htmlFor="ownerName">Owner Name *</Label>
                 <Input
                   id="ownerName"
@@ -184,7 +190,7 @@ const BusinessSignup = () => {
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <div>
+              <div className="space-y-2">
                 <Label htmlFor="email">Email *</Label>
                 <Input
                   id="email"
@@ -194,7 +200,7 @@ const BusinessSignup = () => {
                   placeholder="maya@coffeehouse.com"
                 />
               </div>
-              <div>
+              <div className="space-y-2">
                 <Label htmlFor="phone">Phone *</Label>
                 <Input
                   id="phone"
@@ -205,7 +211,7 @@ const BusinessSignup = () => {
               </div>
             </div>
 
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="address">Business Address *</Label>
               <Input
                 id="address"
@@ -216,7 +222,7 @@ const BusinessSignup = () => {
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <div>
+              <div className="space-y-2">
                 <Label htmlFor="zipCode">ZIP Code *</Label>
                 <Input
                   id="zipCode"
@@ -225,12 +231,12 @@ const BusinessSignup = () => {
                   placeholder="20009"
                 />
                 {selectedWard && (
-                  <Badge variant="outline" className="mt-2">
+                  <div className="text-sm text-primary bg-primary/10 px-2 py-1 rounded">
                     Ward {selectedWard.number}: {selectedWard.name}
-                  </Badge>
+                  </div>
                 )}
               </div>
-              <div>
+              <div className="space-y-2">
                 <Label htmlFor="category">Business Category *</Label>
                 <Select onValueChange={(value) => handleInputChange('category', value)}>
                   <SelectTrigger>
@@ -249,7 +255,7 @@ const BusinessSignup = () => {
               </div>
             </div>
 
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="description">Business Description</Label>
               <Textarea
                 id="description"
@@ -261,7 +267,7 @@ const BusinessSignup = () => {
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <div>
+              <div className="space-y-2">
                 <Label htmlFor="website">Website (optional)</Label>
                 <Input
                   id="website"
@@ -270,7 +276,7 @@ const BusinessSignup = () => {
                   placeholder="https://coffeehouse.com"
                 />
               </div>
-              <div>
+              <div className="space-y-2">
                 <Label htmlFor="revenue">Est. Monthly Revenue</Label>
                 <Input
                   id="revenue"
@@ -283,12 +289,12 @@ const BusinessSignup = () => {
 
             {businessData.estimatedMonthlyRevenue && (
               <Card className="bg-green-50 border-green-200">
-                <CardContent className="p-4">
-                  <h3 className="font-semibold text-green-800 mb-2">Potential Monthly Earnings</h3>
+                <CardContent className="p-4 space-y-2">
+                  <h3 className="font-semibold text-green-800">Potential Monthly Earnings</h3>
                   <div className="text-2xl font-bold text-green-600">
                     ${calculatePotentialEarnings().toFixed(0)}
                   </div>
-                  <p className="text-sm text-green-700 mt-1">
+                  <p className="text-sm text-green-700">
                     Based on 25% Local Card adoption and typical redemption rates
                   </p>
                 </CardContent>
@@ -302,7 +308,7 @@ const BusinessSignup = () => {
               <Button 
                 onClick={handleSubmit} 
                 disabled={loading || !businessData.businessName || !businessData.email}
-                className="bg-blue-600 hover:bg-blue-700 flex-1"
+                className="flex-1"
               >
                 {loading ? 'Submitting Application...' : 'Submit Application'}
               </Button>

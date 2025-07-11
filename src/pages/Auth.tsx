@@ -153,21 +153,21 @@ const Auth = () => {
   // If user is already signed in, show sign out option
   if (user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-blue-50 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader className="text-center">
-            <div className="flex justify-center mb-4">
-              <Shield className="h-12 w-12 text-emerald-600" />
+      <div className="min-h-screen bg-background flex items-center justify-center p-6">
+        <Card className="w-full max-w-md border-0 shadow-lg">
+          <CardHeader className="text-center space-y-4">
+            <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+              <Shield className="h-6 w-6 text-primary" />
             </div>
-            <CardTitle className="text-2xl font-bold text-emerald-600">Welcome!</CardTitle>
-            <p className="text-gray-600">You are signed in as {user.email}</p>
+            <CardTitle className="text-2xl font-semibold">Welcome back</CardTitle>
+            <p className="text-muted-foreground">You are signed in as {user.email}</p>
           </CardHeader>
           <CardContent className="space-y-4">
+            <Button onClick={() => navigate('/dashboard')} className="w-full">
+              Go to Dashboard
+            </Button>
             <Button onClick={handleSignOut} variant="outline" className="w-full">
               Sign Out
-            </Button>
-            <Button onClick={() => navigate('/dashboard')} className="w-full bg-emerald-600 hover:bg-emerald-700">
-              Go to Dashboard
             </Button>
           </CardContent>
         </Card>
@@ -176,14 +176,14 @@ const Auth = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-blue-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
-            <Shield className="h-12 w-12 text-emerald-600" />
+    <div className="min-h-screen bg-background flex items-center justify-center p-6">
+      <Card className="w-full max-w-md border-0 shadow-lg">
+        <CardHeader className="text-center space-y-4">
+          <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+            <Shield className="h-6 w-6 text-primary" />
           </div>
-          <CardTitle className="text-2xl font-bold text-emerald-600">Local Card</CardTitle>
-          <p className="text-gray-600">Secure Authentication</p>
+          <CardTitle className="text-2xl font-semibold">Local Card</CardTitle>
+          <p className="text-muted-foreground">Sign in to your account</p>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="signin" className="space-y-6">
@@ -201,14 +201,14 @@ const Auth = () => {
                   </Alert>
                 )}
 
-                <div>
-                  <Label htmlFor="signin-email">Email Address</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="signin-email">Email</Label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                    <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="signin-email"
                       type="email"
-                      placeholder="john@example.com"
+                      placeholder="Enter your email"
                       className="pl-10"
                       value={signInData.email}
                       onChange={(e) => setSignInData({...signInData, email: e.target.value})}
@@ -217,14 +217,14 @@ const Auth = () => {
                   </div>
                 </div>
 
-                <div>
+                <div className="space-y-2">
                   <Label htmlFor="signin-password">Password</Label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="signin-password"
                       type="password"
-                      placeholder="••••••••"
+                      placeholder="Enter your password"
                       className="pl-10"
                       value={signInData.password}
                       onChange={(e) => setSignInData({...signInData, password: e.target.value})}
@@ -235,7 +235,7 @@ const Auth = () => {
 
                 <Button 
                   type="submit" 
-                  className="w-full bg-emerald-600 hover:bg-emerald-700"
+                  className="w-full"
                   disabled={loading}
                 >
                   {loading ? 'Signing in...' : 'Sign In'}
@@ -253,10 +253,10 @@ const Auth = () => {
                 )}
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div>
+                  <div className="space-y-2">
                     <Label htmlFor="firstName">First Name</Label>
                     <div className="relative">
-                      <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="firstName"
                         placeholder="John"
@@ -267,7 +267,7 @@ const Auth = () => {
                       />
                     </div>
                   </div>
-                  <div>
+                  <div className="space-y-2">
                     <Label htmlFor="lastName">Last Name</Label>
                     <Input
                       id="lastName"
@@ -279,14 +279,14 @@ const Auth = () => {
                   </div>
                 </div>
 
-                <div>
+                <div className="space-y-2">
                   <Label htmlFor="signup-email">Email</Label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                    <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="signup-email"
                       type="email"
-                      placeholder="john@example.com"
+                      placeholder="Enter your email"
                       className="pl-10"
                       value={signUpData.email}
                       onChange={(e) => setSignUpData({...signUpData, email: e.target.value})}
@@ -296,14 +296,14 @@ const Auth = () => {
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div>
+                  <div className="space-y-2">
                     <Label htmlFor="signup-password">Password</Label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="signup-password"
                         type="password"
-                        placeholder="••••••••"
+                        placeholder="Create password"
                         className="pl-10"
                         value={signUpData.password}
                         onChange={(e) => setSignUpData({...signUpData, password: e.target.value})}
@@ -311,14 +311,14 @@ const Auth = () => {
                       />
                     </div>
                   </div>
-                  <div>
-                    <Label htmlFor="confirmPassword">Confirm Password</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="confirmPassword">Confirm</Label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="confirmPassword"
                         type="password"
-                        placeholder="••••••••"
+                        placeholder="Confirm password"
                         className="pl-10"
                         value={signUpData.confirmPassword}
                         onChange={(e) => setSignUpData({...signUpData, confirmPassword: e.target.value})}
@@ -330,7 +330,7 @@ const Auth = () => {
 
                 <Button 
                   type="submit" 
-                  className="w-full bg-emerald-600 hover:bg-emerald-700"
+                  className="w-full"
                   disabled={loading}
                 >
                   {loading ? 'Creating Account...' : 'Create Account'}

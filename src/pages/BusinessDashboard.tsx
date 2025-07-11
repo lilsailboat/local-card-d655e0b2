@@ -61,20 +61,20 @@ const BusinessDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto px-6 py-8">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">{business.name}</h1>
-            <p className="text-gray-600">Business Dashboard</p>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 space-y-4 sm:space-y-0">
+          <div className="space-y-1">
+            <h1 className="text-3xl font-bold">{business.name}</h1>
+            <p className="text-muted-foreground">Business Dashboard</p>
           </div>
           <Button 
-            className="bg-blue-600 hover:bg-blue-700"
             onClick={() => setShowCampaignCreator(true)}
+            className="flex items-center space-x-2"
           >
-            <Megaphone className="h-4 w-4 mr-2" />
-            Create Campaign
+            <Megaphone className="h-4 w-4" />
+            <span>Create Campaign</span>
           </Button>
         </div>
 
